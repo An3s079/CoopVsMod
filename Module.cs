@@ -4,44 +4,36 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Gungeon;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
-using System.Globalization;
-using SGUI;
-using System.Collections;
-using MonoMod.RuntimeDetour;
-using MonoMod.Utils;
-using Mono.Cecil;
-//using MonoMod.Cil;
+using BepInEx;
 
 namespace VersusMod
 {
-	public class Module : ETGModule
+	[BepInPlugin("an3s.etg.coopvs", "Coop Versus Mod", "1.0.0")]
+	[BepInDependency("etgmodding.etg.mtgapi")]
+	public class Module : BaseUnityPlugin
 	{
 
 		public static readonly string MOD_NAME = "Versus Mod";
 		public static readonly string VERSION = "1.0.0";
 		public static readonly string TEXT_COLOR = "#00FFFF";
+		public static Module instance;
 
-		public static ETGModuleMetadata metadata;
-
-		public override void Start()
+		public void Start()
 		{
 			try
 			{
-				metadata = this.Metadata;
-				Module.altCam = ETGModMainBehaviour.Instance.gameObject.AddComponent<StaticCam>();
+				instance = this; 
+				Module.altCam = gameObject.AddComponent<StaticCam>();
 				//new Hook(typeof(MainMenuController).GetMethod("DoQuickStart", BindingFlags.NonPublic | BindingFlags.Instance), typeof(Module).GetMethod("SayHiCoroutine", BindingFlags.Public | BindingFlags.Static));
 				ETGModConsole.Commands.AddGroup("vs");
 				ETGModConsole.Commands.GetGroup("vs").AddUnit("start", Startp2);
-				AdvancedLogging.LogPlain(MOD_NAME + " version " + VERSION + " started successfully.", new Color32(247, 171, 20, 255));
+				ETGModConsole.Log(MOD_NAME + " version " + VERSION + " started successfully.").Colors[0] = new Color32(247, 171, 20, 255);
 				//CoroutineHelper.HookCoroutine("global::FinalIntroSequenceManager", "DoQuickStart", Test);
 			}
 			catch (Exception e)
 			{
-				AdvancedLogging.LogError("mod Broke heres why: " + e);
+				ETGModConsole.Log("mod Broke heres why: " + e);
 			}
 			
 		}
@@ -64,10 +56,10 @@ namespace VersusMod
 			else
 			{
 				
-				ETGModMainBehaviour.Instance.gameObject.GetOrAddComponent<AddMindControlForP2>();
+				Module.instance.gameObject.GetOrAddComponent<AddMindControlForP2>();
 				GameManager.Instance.PrimaryPlayer.OnEnteredCombat += AddMCP2;
 				
-				AdvancedLogging.LogPlain("Versus player2 started!", Color.green);
+				ETGModConsole.Log("Versus player2 started!").Colors[0] = Color.green;
 			}
 		}
 		public static AIActor neemyP2;
@@ -93,9 +85,6 @@ namespace VersusMod
 			ETGModConsole.Log($"<color={color}>{text}</color>");
 		}
 		public StreamWriter writer;
-
-		public override void Exit() { }
-		public override void Init() { }
 
 	}
 }

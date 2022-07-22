@@ -6,7 +6,7 @@ using UnityEngine;
 using Dungeonator;
 using System.Collections;
 using System.Reflection;
-using MonoMod.RuntimeDetour;
+
 namespace VersusMod
 {
 	class AddMindControlForP2 : MonoBehaviour
@@ -71,7 +71,7 @@ namespace VersusMod
 			GameManager.Instance.SecondaryPlayer.healthHaver.IsVulnerable = true;
 			GameManager.Instance.SecondaryPlayer.healthHaver.ApplyDamage(float.PositiveInfinity, Vector2.zero, "magic powers");
 			GameManager.Instance.PrimaryPlayer.OnEnteredCombat -= Module.AddMCP2;
-			UnityEngine.Object.Destroy(ETGModMainBehaviour.Instance.gameObject.GetComponent<AddMindControlForP2>());
+			UnityEngine.Object.Destroy(Module.instance.gameObject.GetComponent<AddMindControlForP2>());
 			GameManager.Instance.SecondaryPlayer.IsVisible = true;
 			GameManager.Instance.SecondaryPlayer.ToggleGunRenderers(true);
 			GameManager.Instance.SecondaryPlayer.ToggleShadowVisiblity(true);

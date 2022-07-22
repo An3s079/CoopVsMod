@@ -15,7 +15,7 @@ namespace VersusMod
 		{
 			StaticCam.Instance = this;
 			this.handledRooms = new List<RoomHandler>();
-			GameManager.Instance.OnNewLevelFullyLoaded += delegate ()
+            GameManager.Instance.OnNewLevelFullyLoaded += delegate ()
 			{
 				this.handledRooms.Clear();
 				this.camControl = Camera.main.GetComponent<CameraController>();
@@ -46,14 +46,6 @@ namespace VersusMod
 			}
 		}
 
-		// Token: 0x06000003 RID: 3 RVA: 0x00002170 File Offset: 0x00000370
-		private void DoDebugLabels()
-		{
-			this.activeLabel.SetText("Active: " + StaticCam.isActive.ToString());
-			this.lockLabel.SetText("Locked: " + this.locked.ToString());
-			this.inputLabel.SetText("Input:" + GameManager.Instance.PrimaryPlayer.AcceptingAnyInput.ToString());
-			this.manualControlLabel.SetText("Manual: " + Camera.main.GetComponent<CameraController>().ManualControl.ToString());
-		}
 
 		// Token: 0x06000004 RID: 4 RVA: 0x0000221C File Offset: 0x0000041C
 		private void Update()
@@ -139,18 +131,6 @@ namespace VersusMod
 		}
 
 		// Token: 0x06000007 RID: 7 RVA: 0x000023F0 File Offset: 0x000005F0
-		private void InitDebugLabels()
-		{
-			this.activeLabel = new DebugLabel();
-			this.activeLabel.SetPosition(0.8f, 0.5f);
-			this.lockLabel = new DebugLabel();
-			this.lockLabel.SetPosition(0.8f, 0.53f);
-			this.inputLabel = new DebugLabel();
-			this.inputLabel.SetPosition(0.8f, 0.59f);
-			this.manualControlLabel = new DebugLabel();
-			this.manualControlLabel.SetPosition(0.8f, 0.56f);
-		}
-
 		// Token: 0x06000008 RID: 8 RVA: 0x00002484 File Offset: 0x00000684
 		private void Unlock()
 		{
@@ -240,18 +220,6 @@ namespace VersusMod
 
 		// Token: 0x04000007 RID: 7
 		private List<RoomHandler> handledRooms;
-
-		// Token: 0x04000008 RID: 8
-		private DebugLabel activeLabel;
-
-		// Token: 0x04000009 RID: 9
-		private DebugLabel lockLabel;
-
-		// Token: 0x0400000A RID: 10
-		private DebugLabel manualControlLabel;
-
-		// Token: 0x0400000B RID: 11
-		private DebugLabel inputLabel;
 
 		// Token: 0x0400000C RID: 12
 		private bool locked;
